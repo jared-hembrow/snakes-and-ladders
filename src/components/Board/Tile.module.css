@@ -1,0 +1,12 @@
+.tile-container {
+  width: 100px;
+  height: 100px;
+  border: 1px solid white;
+}
+
+.tile-player {
+  background-color: red;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+}
