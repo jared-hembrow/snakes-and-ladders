@@ -3,17 +3,17 @@ import React, { FC, Fragment, useContext, useState } from "react";
 import style from "./Board.module.css";
 import TileItem from "./TileItem";
 import SnakesCTX from "../Snakes/SnakesCTX";
+import Dice from "./Dice";
+import GameOver from "./GameOver";
 
 const Board: FC = () => {
-  const [rolls, setRolls] = useState<[number, number]>([0, 0]);
   const {
     state: { game },
   } = useContext(SnakesCTX);
   console.log(game);
-  console.log(rolls);
-  const handleRollBtn = () => {};
   return (
     <div>
+      <GameOver game={game.gameWon} />
       {game.board.tiles.map((n, idx) => (
         <div key={`row-${idx}`} className="flex flex-row">
           {n.map((y) => {
@@ -21,7 +21,7 @@ const Board: FC = () => {
               (p) => p.position === y.tileNum
             );
             return (
-              <Fragment key={`tile-${y}`}>
+              <Fragment key={`tile-${idx}-${y.tileNum}`}>
                 <TileItem
                   data={y}
                   players={
@@ -33,15 +33,7 @@ const Board: FC = () => {
           })}
         </div>
       ))}
-      <button
-        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-700"
-        onClick={handleRollBtn}
-      >
-        Roll
-      </button>
-      <div>{rolls[0]}</div>
-      <div>{rolls[1]}</div>
-      <div>{rolls[1] + rolls[0]}</div>
+      <Dice />
     </div>
   );
 };

@@ -6,9 +6,11 @@ const testPlayers = [{ name: "jed" }];
 
 type SnakesAndLaddersState = {
   game: Game;
+  playerId: number;
 };
 const initialState: SnakesAndLaddersState = {
   game: new Game(testPlayers),
+  playerId: 0,
 };
 const SnakesCTX = createContext<{
   state: SnakesAndLaddersState;
@@ -29,6 +31,11 @@ export const SnakesProvider = ({ children }: { children: ReactNode }) => {
     switch (action.type) {
       case "INIT_GAME":
         return { ...state, game: new Game(testPlayers) };
+      case "ROLL_DICE":
+        console.log("ROLL_DICE");
+        const game = state.game;
+        game.takeTurn(state.playerId);
+        return { ...state };
       default:
         return state;
     }

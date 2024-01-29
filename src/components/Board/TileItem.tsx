@@ -19,10 +19,12 @@ const TileItem: FC<Props> = ({ data, players }) => {
         ? null
         : players?.map((p) => (
             <div
+              key={`player-${p}`}
               style={{ backgroundColor: playerColors[!p ? 0 : p] }}
               className={style["tile-player"]}
             ></div>
           ))}
+      ---{data.destination}
     </div>
   );
 };
