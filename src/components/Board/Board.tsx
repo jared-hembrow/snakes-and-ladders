@@ -13,6 +13,15 @@ const Board: FC = () => {
   console.log(game);
   return (
     <div>
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        {/* <!-- Snake body --> */}
+        <rect x="20" y="20" width="20" height="20" fill="green" />
+        <rect x="40" y="20" width="20" height="20" fill="green" />
+        <rect x="60" y="20" width="20" height="20" fill="green" />
+
+        {/* <!-- Snake head --> */}
+        <polygon points="80,20 100,10 100,30" fill="green" />
+      </svg>
       <GameOver game={game.gameWon} />
       {game.board.tiles.map((n, idx) => (
         <div key={`row-${idx}`} className="flex flex-row">
@@ -33,7 +42,9 @@ const Board: FC = () => {
           })}
         </div>
       ))}
-      <Dice />
+      <div className={style["control-board"]}>
+        <Dice />
+      </div>
     </div>
   );
 };

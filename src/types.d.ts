@@ -1,7 +1,9 @@
+export type TileMap = Map<number, Tile>;
 export type Tile = {
   type: TileTypes;
   tileNum: number;
   destination?: number;
+  coords: [x: number, y: number];
 };
 export enum TileTypes {
   START = "START",

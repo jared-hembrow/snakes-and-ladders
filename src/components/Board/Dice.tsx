@@ -14,7 +14,7 @@ const Dice = (props: Props) => {
     dispatch({ type: "ROLL_DICE", payload: null });
   };
   return (
-    <div className="p-8 rounded shadow-md">
+    <div className="p-8 rounded shadow-md bg-gray-50">
       <div className="flex mb-4">
         <div className="w-12 h-12 bg-gray-300 flex items-center justify-center text-2xl font-bold rounded">
           <span id="die1">
