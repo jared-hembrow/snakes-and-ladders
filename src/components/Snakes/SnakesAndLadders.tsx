@@ -1,10 +1,12 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import SnakesCTX, { SnakesProvider } from "./SnakesCTX";
-import { Board } from "@/components";
 import SnakesBoard from "./SnakesBoard";
 import { Tile, TileMap, TileTypes } from "@/types.d";
 import { snakesAndLaddersBoard } from "@/Game";
+import style from "./Snakes.module.css";
+import Dice from "./Dice";
+import GameOver from "./GameOver";
 
 type Props = {};
 
@@ -13,6 +15,9 @@ const SnakesAndLaddersCompoennt = (props: Props) => {
     state: { game },
   } = useContext(SnakesCTX);
 
+  useEffect(() => {
+    // connectSocket();
+  }, []);
   const getSpecialTiles = (boardMap: Map<number, Tile>): Tile[] => {
     return Array.from(boardMap.entries()).flatMap((t) => {
       if (
@@ -27,10 +32,20 @@ const SnakesAndLaddersCompoennt = (props: Props) => {
   console.log(game);
   return (
     <div>
+      <GameOver game={game.gameWon} />
       <SnakesBoard
+        players={[
+          { position: 1, order: 0 },
+          { position: 10, order: 1 },
+          { position: 1, order: 2 },
+          { position: 1, order: 3 },
+        ]}
         height={1000}
         tiles={getSpecialTiles(snakesAndLaddersBoard)}
       />
+      <div className={style["control-board"]}>
+        <Dice />
+      </div>
     </div>
   );
 };

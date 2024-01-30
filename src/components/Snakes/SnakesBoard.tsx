@@ -6,10 +6,15 @@ import React, { FC, useEffect, useRef } from "react";
 type Props = {
   tiles: Tile[];
   height: number;
+  players: PlayerItem[];
+};
+type PlayerItem = {
+  position: number;
+  order: number;
 };
 type Coord = [x: number, y: number];
 type StartEndCoordsMap = { start: Coord; end: Coord };
-const SnakesBoard: FC<Props> = ({ tiles, height = 1000 }) => {
+const SnakesBoard: FC<Props> = ({ tiles, height = 1000, players }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     if (!canvasRef || !canvasRef.current) return;
@@ -56,11 +61,9 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000 }) => {
     ctx.moveTo(midPoint[0], midPoint[1]);
     ctx.bezierCurveTo(cp3[0], cp3[1], cp4[0], cp4[1], end[0], end[1]);
     ctx.stroke();
-    // Draw snake head
-    // Draw a filled circle for the snake head
-    ctx.fillStyle = "gray"; // Blue color
 
-    // Draw a filled ellipse for the snake head
+    // Draw snake head
+    ctx.fillStyle = "gray"; // Blue color
     const rotation = findRotation(start, end);
     ctx.beginPath();
     ctx.ellipse(start[0], start[1], 10, 10, rotation, 0, 2 * Math.PI);
@@ -129,7 +132,7 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000 }) => {
     const squares: { [key: number | string]: any } = {};
 
     var colorA = "white";
-    var colorB = "red";
+    var colorB = "#b8b8d1";
 
     var initRow = 1;
     var totalRows = 10;
@@ -182,6 +185,10 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000 }) => {
       leftToRight = !leftToRight;
     }
     renderSpecialTiles(context);
+    for (const p of players) {
+      console.log("Player", p);
+      renderPlayer(context, squareSize, p.position, p.order);
+    }
   };
 
   const getTileCoord = (tile: Tile, squareSize: number): StartEndCoordsMap => {
@@ -221,8 +228,7 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000 }) => {
   };
   const renderSpecialTiles = (ctx: CanvasRenderingContext2D) => {
     const squareSize = height / 10;
-    // drawLadder(ctx, [100, 100], [600, 600]);
-    // drawSnake(ctx, [410, 920], [630, 180]);
+
     for (const t of tiles) {
       if (!t.hasOwnProperty("destination")) continue;
       const tileCoords = getTileCoord(t, squareSize);
@@ -237,6 +243,38 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000 }) => {
         drawSnake(ctx, tileCoords.start, tileCoords.end);
       }
     }
+  };
+  const playerColors: { [key: number]: string } = {
+    0: "red",
+    1: "blue",
+    2: "green",
+    3: "yellow",
+  };
+
+  const renderPlayer = (
+    ctx: CanvasRenderingContext2D,
+    squareSize: number,
+    position: number,
+    order: number
+  ) => {
+    const tile = snakesAndLaddersBoard.get(position);
+    console.log("Player tile:", tile);
+    if (!tile) return;
+    // Set the stroke color
+    ctx.strokeStyle = playerColors[order]; // Blue color
+
+    const radius = squareSize / 8;
+    const x =
+      tile.coords[0] * squareSize +
+      (squareSize / 4) * order +
+      radius +
+      5 -
+      order * 15;
+    const y = tile.coords[1] * squareSize + squareSize / 2;
+    // Draw a circle
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    ctx.stroke();
   };
   return (
     <div>
