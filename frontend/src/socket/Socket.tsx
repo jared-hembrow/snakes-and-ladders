@@ -26,9 +26,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     if (typeof window === undefined) return;
     const location = window.location;
     console.log(location);
-    const socketInstance = io(location.origin);
+    // const socketInstance = io(location.origin);
+    const socketInstance = io("http://localhost:3000");
     createSocketHandlers(socketInstance);
-    console.log(socketInstance.listenersAny());
     setSocket(socketInstance);
 
     // Clean up the socket connection on unmount
@@ -36,16 +36,12 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       socketInstance.disconnect();
     };
   }, []);
-  const connect = (socket: Socket) => {
-    socket.connect();
-  };
+
   const createSocketHandlers = (socket: Socket) => {
     socket.on("connect", () => {
-      console.log("connect", socket.id);
       socket.on("game_joined", (msg: string) => {
         try {
           const body = JSON.parse(msg);
-          console.log("Game Joined: ", body);
           setSockEvent({ type: ActionTypes.GAME_JOINED, payload: body });
         } catch (e) {
           console.error(e);
@@ -53,9 +49,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       });
       socket.on("game_updated", (msg: string) => {
         try {
-          console.log("Game Updated MSG: ", msg);
           const body = JSON.parse(msg);
-          console.log("Game Update Body: ", body);
           setSockEvent({ type: ActionTypes.GAME_UPDATED, payload: body });
         } catch (e) {
           console.error(e);

@@ -1,16 +1,22 @@
+.game-container {
+  width: 99vw;
+  overflow: auto;
+  padding-bottom: 5rem;
+}
+
 .gameover {
   position: absolute;
   top: 30%;
   left: 30%;
 }
 .control-board {
-  position: sticky;
+  position: fixed;
   bottom: 0px;
-  min-width: 50%;
+  width: 100%;
 }
 .game-id-panel {
   background-color: rgb(59 130 246);
-  width: 200px;
+  max-width: 40vw;
   color: black;
   padding: 10px;
   border-radius: 5px;
@@ -36,7 +42,7 @@
 }
 .name-panel {
   background-color: rgb(130 59 246);
-  /* width: 200px; */
+  max-width: 40vw;
   color: black;
   padding: 10px;
   border-radius: 5px;

@@ -1,7 +1,7 @@
 "use client";
 import React, { Fragment, useContext, useEffect } from "react";
 import SnakesCTX, { SnakesProvider } from "./SnakesCTX";
-import SnakesBoard, { playerColors } from "./SnakesBoard";
+import SnakesBoard from "./SnakesBoard";
 import { Tile, TileTypes } from "@/types.d";
 import { snakesAndLaddersBoard } from "@/Game";
 import style from "./Snakes.module.css";
@@ -65,7 +65,7 @@ const SnakesAndLaddersCompoennt = (props: Props) => {
   };
   if (!gameId) return <NewGame />;
   return (
-    <>
+    <div className={`${style["game-container"]}`}>
       {renderGameId()}
       {renderName()}
 
@@ -90,15 +90,11 @@ const SnakesAndLaddersCompoennt = (props: Props) => {
             tiles={getSpecialTiles(snakesAndLaddersBoard)}
           />
         </Fragment>
-        <div
-          className={`shadow-md bg-${
-            playerId !== null ? playerColors[playerId] : "white"
-          }-600 ${style["control-board"]}`}
-        >
+        <div className={`shadow-md ${style["control-board"]}`}>
           <Dice />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 // Export component with context wrapped

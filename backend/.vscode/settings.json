@@ -1,0 +1,5 @@
+{
+  "appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
+  "appService.defaultWebAppToDeploy": "/subscriptions/f163097b-8d70-4826-bd7f-079bc3eed3ea/resourceGroups/snakes-ladders_group/providers/Microsoft.Web/sites/snakes-ladders",
+  "appService.deploySubpath": "."
+}

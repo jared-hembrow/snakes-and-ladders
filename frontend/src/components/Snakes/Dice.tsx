@@ -54,7 +54,7 @@ const Dice = () => {
         </div>
       </div>
       <div></div>
-      <div>
+      <div className="flex flex-col-reverse">
         <button
           disabled={!game ? true : game.turn !== playerId ? true : false}
           onClick={handleRoll}
