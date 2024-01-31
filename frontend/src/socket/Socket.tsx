@@ -26,8 +26,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     if (typeof window === undefined) return;
     const location = window.location;
     console.log(location);
-    // const socketInstance = io(location.origin);
-    const socketInstance = io("http://localhost:3000");
+    const socketInstance = io(location.origin);
+    // const socketInstance = io("http://localhost:3000"); // Development
     createSocketHandlers(socketInstance);
     setSocket(socketInstance);
 
