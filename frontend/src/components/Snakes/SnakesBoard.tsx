@@ -14,6 +14,16 @@ type PlayerItem = {
 };
 type Coord = [x: number, y: number];
 type StartEndCoordsMap = { start: Coord; end: Coord };
+export const playerColors: { [key: number]: string } = {
+  0: "red",
+  1: "blue",
+  2: "green",
+  3: "yellow",
+  4: "organe",
+  5: "violet",
+  6: "pink",
+};
+
 const SnakesBoard: FC<Props> = ({ tiles, height = 1000, players }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -45,12 +55,7 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000, players }) => {
     ];
 
     let midPoint = [diff[0] / 2 + start[0], diff[1] / 2 + start[1]];
-    // let cp1 = [end[0] / 3 - 100, end[1] / 3 + 100];
-    // let cp2 = [end[0] / 3 + 100, end[1] / 3 - 100];
-    // let cp3 = [(end[0] / 3) * 2 - 100, (end[1] / 3) * 2 + 100];
-    // let cp4 = [(end[0] / 3) * 2 + 100, (end[1] / 3) * 2 - 100];
-    console.log(diff, cp1, cp2, cp3, cp4);
-    // Cubic Bézier curve
+
     // 1st curves
     ctx.beginPath();
     ctx.moveTo(start[0], start[1]);
@@ -63,22 +68,10 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000, players }) => {
     ctx.stroke();
 
     // Draw snake head
-    ctx.fillStyle = "gray"; // Blue color
-    const rotation = findRotation(start, end);
+    ctx.fillStyle = "gray";
     ctx.beginPath();
-    ctx.ellipse(start[0], start[1], 10, 10, rotation, 0, 2 * Math.PI);
+    ctx.ellipse(start[0], start[1], 10, 10, 90, 0, 2 * Math.PI);
     ctx.fill();
-  };
-
-  const findRotation = (start: Coord, end: Coord): number => {
-    // angle=Math.atan2(y2−y1,x2−x1)
-    // Calculate the angle in radians
-    var angle = Math.atan2(end[1] - start[1], end[0] - end[1]);
-    console.log(angle);
-    // Convert the angle from radians to degrees
-    var degrees = angle * (180 / Math.PI);
-
-    return degrees;
   };
 
   const drawLadder = (
@@ -106,7 +99,6 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000, players }) => {
     const diff = [end[0] - start[0], end[1] - start[1]];
     const rungCount = diff[1] / 20;
     const step = diff[0] / 20;
-    console.log(diff[0] / 20, diff, rungCount);
     for (let i = 1; i < 20; i++) {
       const stepX = step * i;
       const stepY = rungCount * i;
@@ -186,7 +178,6 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000, players }) => {
     }
     renderSpecialTiles(context);
     for (const p of players) {
-      console.log("Player", p);
       renderPlayer(context, squareSize, p.position, p.order);
     }
   };
@@ -233,22 +224,12 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000, players }) => {
       if (!t.hasOwnProperty("destination")) continue;
       const tileCoords = getTileCoord(t, squareSize);
       if (t.type === TileTypes.LADDER_BASE) {
-        console.log("Ladder");
         drawLadder(ctx, tileCoords.start, tileCoords.end);
       }
       if (t.type === TileTypes.SNAKE_HEAD) {
-        console.log("Snake");
-        console.log("tile: ", t);
-        console.log("coords:", tileCoords);
         drawSnake(ctx, tileCoords.start, tileCoords.end);
       }
     }
-  };
-  const playerColors: { [key: number]: string } = {
-    0: "red",
-    1: "blue",
-    2: "green",
-    3: "yellow",
   };
 
   const renderPlayer = (
@@ -258,7 +239,6 @@ const SnakesBoard: FC<Props> = ({ tiles, height = 1000, players }) => {
     order: number
   ) => {
     const tile = snakesAndLaddersBoard.get(position);
-    console.log("Player tile:", tile);
     if (!tile) return;
     // Set the stroke color
     ctx.strokeStyle = playerColors[order]; // Blue color

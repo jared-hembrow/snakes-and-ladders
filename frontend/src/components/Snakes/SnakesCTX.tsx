@@ -1,16 +1,26 @@
 "use client";
-import { Game } from "@/Game";
 import { ReactNode, createContext, useReducer } from "react";
 
-const testPlayers = [{ name: "jed" }];
-
 type SnakesAndLaddersState = {
-  game: Game;
-  playerId: number;
+  gameId: string | null;
+  playerId: number | null;
+  game: GameDetails | null;
+};
+type GameDetails = {
+  players: {
+    id: number;
+    position: number;
+    connectionId: string;
+    name: string;
+  }[];
+  lastRoll: { playerId: number; roll: [number, number] } | null;
+  turn: number;
+  status: string;
 };
 const initialState: SnakesAndLaddersState = {
-  game: new Game(testPlayers),
-  playerId: 0,
+  gameId: null,
+  playerId: null,
+  game: null,
 };
 const SnakesCTX = createContext<{
   state: SnakesAndLaddersState;
@@ -19,27 +29,27 @@ const SnakesCTX = createContext<{
   state: initialState,
   dispatch: () => {},
 });
-
+export enum ActionTypes {
+  GAME_JOINED = "GAME_JOINED",
+  GAME_UPDATED = "GAME_UPDATED",
+}
 // TODO make this better
-type SnakesCTXAction = {
-  type: string;
+export type SnakesCTXAction = {
+  type: ActionTypes;
   payload: any;
 };
 
 export const SnakesProvider = ({ children }: { children: ReactNode }) => {
   const reducer = (state: SnakesAndLaddersState, action: SnakesCTXAction) => {
+    console.log("Reducer Action: ", action);
     switch (action.type) {
-      case "INIT_GAME":
-        return { ...state, game: new Game(testPlayers) };
-      case "ROLL_DICE":
-        console.log("ROLL_DICE");
-        const game = state.game;
-        game.takeTurn(state.playerId);
-        return { ...state };
+      case ActionTypes.GAME_JOINED:
+        return { ...state, ...action.payload };
+      case ActionTypes.GAME_UPDATED:
+        return { ...state, game: action.payload };
       default:
         return state;
     }
-    return state;
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);

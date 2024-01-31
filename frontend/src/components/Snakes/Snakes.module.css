@@ -1,0 +1,84 @@
+.gameover {
+  position: absolute;
+  top: 30%;
+  left: 30%;
+}
+.control-board {
+  position: sticky;
+  bottom: 0px;
+  min-width: 50%;
+}
+.game-id-panel {
+  background-color: rgb(59 130 246);
+  width: 200px;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px gray;
+  position: fixed;
+  right: 20px;
+  top: 5px;
+  display: flex;
+  align-items: center;
+}
+.game-id-panel-label {
+  color: white;
+  margin-right: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.game-id-panel-text {
+  background-color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.name-panel {
+  background-color: rgb(130 59 246);
+  /* width: 200px; */
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px gray;
+  position: fixed;
+  left: 20px;
+  top: 5px;
+  display: flex;
+  align-items: center;
+}
+.name-panel-label {
+  color: white;
+  margin-right: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.name-panel-text {
+  background-color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.bg-red {
+  background-color: rgb(202, 34, 34);
+}
+.bg-blue {
+  background-color: rgb(50, 50, 198);
+}
+.bg-yellow {
+  background-color: rgb(232, 232, 30);
+}
+.bg-green {
+  background-color: green;
+}
+.bg-orange {
+  background-color: orange;
+}
+.bg-violet {
+  background-color: violet;
+}
+.bg-pink {
+  background-color: pink;
+}
